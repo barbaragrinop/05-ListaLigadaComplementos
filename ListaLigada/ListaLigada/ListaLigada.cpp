@@ -8,6 +8,7 @@ struct NO {
 };
 
 NO* primeiro = NULL;
+NO* ultimo = NULL;
 
 // headers
 void menu();
@@ -116,9 +117,10 @@ void inserirElemento()
 {
 	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
+
 	if (novo == NULL)
 	{
-		return;
+		return; //Não tem espaço
 	}
 
 	cout << "Digite o elemento: ";
@@ -128,6 +130,7 @@ void inserirElemento()
 	if (primeiro == NULL)
 	{
 		primeiro = novo;
+		ultimo = novo;
 	}
 	else
 	{
@@ -137,6 +140,7 @@ void inserirElemento()
 			aux = aux->prox;
 		}
 		aux->prox = novo;
+		ultimo = novo;
 	}
 }
 
