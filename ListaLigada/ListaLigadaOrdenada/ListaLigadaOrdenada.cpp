@@ -8,6 +8,8 @@ struct NO {
 };
 
 NO* primeiro = NULL;
+NO* ultimo = NULL;
+
 
 // headers
 void menu();
@@ -116,7 +118,7 @@ void inserirElemento()
 {
 	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
-	if (novo == NULL)
+	if (novo == NULL) //verifica se tem espaço na memória
 	{
 		return;
 	}
@@ -125,19 +127,45 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
+	NO* encontrado = posicaoElemento(novo->valor);
+	if (encontrado) {
+		cout << "Nao e permitido a insercao de valores repetidos na lista.\nTente novamente: \n\n";
+		inserirElemento();
+	}
+	
 	if (primeiro == NULL)
 	{
 		primeiro = novo;
+		ultimo = novo;
 	}
 	else
 	{
-		// procura o final da lista
+		NO* valoresSeguintes;
 		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
+
+		if (novo->valor < primeiro->valor) {
+			valoresSeguintes = novo;
+			valoresSeguintes->prox = aux;
+			aux = NULL;
+			aux = valoresSeguintes;
+
+			//return;
 		}
-		aux->prox = novo;
-	}
+		else {
+			// procura o final da lista
+			while (aux->prox != NULL) {
+				if (novo->valor < aux->prox->valor) {
+					valoresSeguintes = aux->prox;
+					novo->prox = valoresSeguintes;
+					aux->prox = novo;
+					return;
+				}
+				aux = aux->prox;
+			}
+			aux->prox = novo;
+			ultimo = novo;
+		}
+	}	
 }
 
 void excluirElemento()
@@ -145,9 +173,39 @@ void excluirElemento()
 
 }
 
+
 void buscarElemento()
 {
-
+	int valor;
+	cout << "Digite o elemento: ";
+	cin >> valor;
+	if (valor < primeiro->valor || valor > ultimo->valor) {
+		cout << "Valor nao incluso na lista\n\n\n";
+		return;
+	}
+	else {
+		NO* elementoExistente = posicaoElemento(valor);
+		if (elementoExistente) {
+			cout << "ENCONTRADO\n\n";
+		}
+		else {
+			cout << "ELEMENTO NAO ENCONTRADO\n\n";
+		}
+	}
 }
+
+NO* posicaoElemento(int numero)
+{
+	NO* aux = primeiro;
+	while (aux != NULL) {
+		if (aux->valor == numero)
+		{
+			break;
+		}
+		aux = aux->prox;
+	}
+	return aux;
+}
+
 
 
