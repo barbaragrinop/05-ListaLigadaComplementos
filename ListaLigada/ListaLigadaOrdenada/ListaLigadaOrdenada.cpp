@@ -249,6 +249,11 @@ void buscarElemento()
 NO* posicaoElemento(int numero)
 {
 	NO* aux = primeiro;
+
+	if (primeiro->valor == numero) return primeiro;
+
+	if (ultimo->valor == numero) return ultimo;
+
 	while (aux != NULL) {
 		if (aux->valor == numero)
 		{
