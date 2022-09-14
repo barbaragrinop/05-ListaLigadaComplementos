@@ -144,12 +144,14 @@ void inserirElemento()
 		NO* aux = primeiro;
 
 		if (novo->valor < primeiro->valor) {
-			valoresSeguintes = novo;
-			valoresSeguintes->prox = aux;
+			NO* atual = aux;
+			NO* novaEstrutura = NULL;
+			novaEstrutura = novo;
+			novaEstrutura->prox = atual;
 			aux = NULL;
-			aux = valoresSeguintes;
+			aux = novaEstrutura;
+			primeiro = novo;
 
-			//return;
 		}
 		else {
 			// procura o final da lista
@@ -170,6 +172,36 @@ void inserirElemento()
 
 void excluirElemento()
 {
+	int elemento = -1;
+	cout << "Insira o elemento a ser excluido: ";
+	cin >> elemento;
+	NO* posicao = posicaoElemento(elemento);
+
+	if (elemento < primeiro->valor || elemento > ultimo->valor) {
+		cout << "Elemento nao encontrado";
+		return;
+	}
+
+	if (posicao == primeiro) {
+		primeiro = primeiro->prox;
+		free(posicao);
+		cout << "Elemento excluido com sucesso!\n\n";
+		return;
+	}
+
+	if (posicao != primeiro) {
+		NO* aux = primeiro;
+		while (aux != NULL) {
+			if (aux->prox == posicao) {
+				aux->prox = posicao->prox;
+				free(posicao);
+				cout << "Elemento excluido com sucesso!\n\n";
+				return;
+			}
+			aux = aux->prox;
+		}
+	}
+
 
 }
 
